@@ -1,5 +1,6 @@
 import Component from "./modules/Component.js";
 import * as update from "./modules/updateController.js";
+import crashWith from "./modules/crashController.js";
 
 let myGamePiece;
 const myObstacles = [];
@@ -37,6 +38,7 @@ function hitBorder(component) {
   const topBorder = 0;
   const leftBorder = 0;
   const rightBorder = myGameArea.canvas.width - component.width;
+  
   if (component.y > bottomBorder) {
     component.y = bottomBorder;
   }
@@ -46,9 +48,9 @@ function hitBorder(component) {
   if (component.x > rightBorder) {
     component.x = leftBorder;
   }
-    if (component.x < leftBorder) {
-      component.x = rightBorder;
-    }
+  if (component.x < leftBorder) {
+    component.x = rightBorder;
+  }
 }
 
 const myGameArea = {
@@ -76,7 +78,7 @@ const myGameArea = {
 function updateGameArea() {
   let x, height, gap, minHeight, maxHeight, minGap, maxGap;
   for (let i = 0; i < myObstacles.length; i += 1) {
-    if (myGamePiece.crashWith(myObstacles[i])) {
+    if (crashWith(myGamePiece, myObstacles[i])) {
       return;
     }
   }
@@ -103,6 +105,14 @@ function updateGameArea() {
     update.component(myObstacles[i], myGameArea.context);
   }
   myScore.text = "SCORE: " + myGameArea.frameNo;
+  update.text(myScore, myGameArea.context);
+  update.component(myScore, myGameArea.context);
+  newPos(myGamePiece);
+  update.component(myGamePiece, myGameArea.context);
+  myBackground.speedY = 1;
+  //newPos(myBackground);
+  //update(myBackground, myGameArea.context);
+
   if (myGameArea.keys && myGameArea.keys[37]) {
     myGamePiece.speedX = -1;
   }
@@ -115,12 +125,6 @@ function updateGameArea() {
   if (myGameArea.keys && myGameArea.keys[40]) {
     myGamePiece.speedY = 1;
   }
-  update.component(myScore, myGameArea.context);
-  newPos(myGamePiece);
-  update.component(myGamePiece, myGameArea.context);
-  myBackground.speedY = 1;
-  //newPos(myBackground);
-  //update(myBackground, myGameArea.context);
 }
 
 function everyinterval(n) {
