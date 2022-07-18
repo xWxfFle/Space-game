@@ -21,24 +21,34 @@ function startGame() {
 }
 
 function newPos(component) {
-  component.gravitySpeed += component.gravity;
   component.x += component.speedX;
-  component.y += component.speedY + component.gravitySpeed;
+  component.y += component.speedY;
   if (component.type == "image") {
     if (component.y == -component.height) {
       component.y = 0;
     }
   } else {
-    hitBottom(component);
+    hitBorder(component);
   }
 }
 
-function hitBottom(component) {
-  let rockbottom = myGameArea.canvas.height - component.height;
-  if (component.y > rockbottom) {
-    component.y = rockbottom;
-    component.gravitySpeed = 0;
+function hitBorder(component) {
+  const bottomBorder = myGameArea.canvas.height - component.height;
+  const topBorder = 0;
+  const leftBorder = 0;
+  const rightBorder = myGameArea.canvas.width - component.width;
+  if (component.y > bottomBorder) {
+    component.y = bottomBorder;
   }
+  if (component.y < topBorder) {
+    component.y = topBorder;
+  }
+  if (component.x > rightBorder) {
+    component.x = leftBorder;
+  }
+    if (component.x < leftBorder) {
+      component.x = rightBorder;
+    }
 }
 
 const myGameArea = {
