@@ -1,6 +1,7 @@
 import Component from "./modules/Component.js";
-import * as update from "./modules/updateController.js";
-import crashWith from "./modules/crashController.js";
+import * as update from "./modules/controllers/updateController.js";
+import crashWith from "./modules/controllers/crashController.js";
+import hitBorder from "./modules/controllers/hitBorderController.js"
 
 let myGamePiece;
 const myObstacles = [];
@@ -29,27 +30,7 @@ function newPos(component) {
       component.y = 0;
     }
   } else {
-    hitBorder(component);
-  }
-}
-
-function hitBorder(component) {
-  const bottomBorder = myGameArea.canvas.height - component.height;
-  const topBorder = 0;
-  const leftBorder = 0;
-  const rightBorder = myGameArea.canvas.width - component.width;
-  
-  if (component.y > bottomBorder) {
-    component.y = bottomBorder;
-  }
-  if (component.y < topBorder) {
-    component.y = topBorder;
-  }
-  if (component.x > rightBorder) {
-    component.x = leftBorder;
-  }
-  if (component.x < leftBorder) {
-    component.x = rightBorder;
+    hitBorder(component, myGameArea.canvas);
   }
 }
 
@@ -112,18 +93,19 @@ function updateGameArea() {
   myBackground.speedY = 1;
   //newPos(myBackground);
   //update(myBackground, myGameArea.context);
-
+  myGamePiece.speedX = 0;
+  myGamePiece.speedY = 0;
   if (myGameArea.keys && myGameArea.keys[37]) {
-    myGamePiece.speedX = -1;
+    myGamePiece.speedX = -2;
   }
   if (myGameArea.keys && myGameArea.keys[39]) {
-    myGamePiece.speedX = 1;
+    myGamePiece.speedX = 2;
   }
   if (myGameArea.keys && myGameArea.keys[38]) {
-    myGamePiece.speedY = -1;
+    myGamePiece.speedY = -2;
   }
   if (myGameArea.keys && myGameArea.keys[40]) {
-    myGamePiece.speedY = 1;
+    myGamePiece.speedY = 2;
   }
 }
 
