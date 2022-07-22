@@ -9,7 +9,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgb(224, 224, 224);
 }
 canvas {
   border: 1px black solid;
+  background-color: white;
+  background-image: url(./img/background.jpg);
 }

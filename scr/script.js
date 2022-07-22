@@ -1,17 +1,24 @@
 import Component from "./modules/Component.js";
 import * as update from "./modules/controllers/updateController.js";
 import crashWith from "./modules/controllers/crashController.js";
-import hitBorder from "./modules/controllers/hitBorderController.js"
+import hitBorder from "./modules/controllers/hitBorderController.js";
+import createAsteroid from "./modules/createAsteroid.js";
 
 let myGamePiece;
 const myObstacles = [];
 let myScore;
 let myBackground;
-
 function startGame() {
   myGameArea.start();
-  myGamePiece = new Component(40, 40, "blue", 230, 700);
-  myScore = new Component("30px", "Consolas", "black", 280, 40, "text");
+  myGamePiece = new Component(
+    40,
+    40,
+    "/scr/img/starship.jpg",
+    230,
+    700,
+    "image"
+  );
+  myScore = new Component("30px", "Consolas", "white", 280, 40, "text");
   myBackground = new Component(
     500,
     800,
@@ -25,13 +32,7 @@ function startGame() {
 function newPos(component) {
   component.x += component.speedX;
   component.y += component.speedY;
-  if (component.type == "image") {
-    if (component.y == -component.height) {
-      component.y = 0;
-    }
-  } else {
-    hitBorder(component, myGameArea.canvas);
-  }
+  hitBorder(component, myGameArea.canvas);
 }
 
 const myGameArea = {
@@ -57,7 +58,6 @@ const myGameArea = {
 };
 
 function updateGameArea() {
-  let x, height, gap, minHeight, maxHeight, minGap, maxGap;
   for (let i = 0; i < myObstacles.length; i += 1) {
     if (crashWith(myGamePiece, myObstacles[i])) {
       return;
@@ -65,31 +65,19 @@ function updateGameArea() {
   }
   myGameArea.clear();
   myGameArea.frameNo += 1;
-  if (myGameArea.frameNo == 1 || everyinterval(150)) {
-    x = myGameArea.canvas.width;
-    minHeight = 20;
-    maxHeight = 200;
-    height = Math.floor(
-      Math.random() * (maxHeight - minHeight + 1) + minHeight
-    );
-    minGap = 50;
-    maxGap = 200;
-    gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-    myObstacles.push(new Component(height, 10, "green", 0, 0));
-    myObstacles.push(
-      new Component(x - height - gap, 10, "green", 0, height + gap)
-    );
-  }
 
+  if ((myGameArea.frameNo / 80) % 1 == 0) {
+    myObstacles.push(new Component(...createAsteroid(myGameArea.canvas.width)));
+  }
+  
   for (let i = 0; i < myObstacles.length; i += 1) {
     myObstacles[i].y += 1;
-    update.component(myObstacles[i], myGameArea.context);
+    update.image(myObstacles[i], myGameArea.context);
   }
   myScore.text = "SCORE: " + myGameArea.frameNo;
   update.text(myScore, myGameArea.context);
-  update.component(myScore, myGameArea.context);
   newPos(myGamePiece);
-  update.component(myGamePiece, myGameArea.context);
+  update.image(myGamePiece, myGameArea.context);
   myBackground.speedY = 1;
   //newPos(myBackground);
   //update(myBackground, myGameArea.context);
@@ -108,12 +96,4 @@ function updateGameArea() {
     myGamePiece.speedY = 2;
   }
 }
-
-function everyinterval(n) {
-  if ((myGameArea.frameNo / n) % 1 == 0) {
-    return true;
-  }
-  return false;
-}
-
 startGame();
