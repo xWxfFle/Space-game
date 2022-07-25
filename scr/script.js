@@ -4,10 +4,8 @@ import crashWith from "./modules/controllers/crashController.js";
 import hitBorder from "./modules/controllers/hitBorderController.js";
 import createAsteroid from "./modules/createAsteroid.js";
 
-let myGamePiece;
+let myGamePiece, myScore;
 const myObstacles = [];
-let myScore;
-let myBackground;
 function startGame() {
   myGameArea.start();
   myGamePiece = new Component(
@@ -19,14 +17,6 @@ function startGame() {
     "image"
   );
   myScore = new Component("30px", "Consolas", "white", 280, 40, "text");
-  myBackground = new Component(
-    500,
-    800,
-    "/scr/img/background.jpg",
-    0,
-    0,
-    "image"
-  );
 }
 
 function newPos(component) {
@@ -52,35 +42,34 @@ const myGameArea = {
       myGameArea.keys[e.keyCode] = e.type == "keydown";
     });
   },
-  clear: function () {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  },
 };
 
 function updateGameArea() {
-  for (let i = 0; i < myObstacles.length; i += 1) {
-    if (crashWith(myGamePiece, myObstacles[i])) {
-      return;
-    }
-  }
-  myGameArea.clear();
+  myGameArea.context.clearRect(
+    0,
+    0,
+    myGameArea.canvas.width,
+    myGameArea.canvas.height
+  );
   myGameArea.frameNo += 1;
-
+  for (let i = 0; i < myObstacles.length; i += 1) {
+    if (myObstacles[i].y > myGameArea.canvas.height) {
+      myObstacles.splice(i, 1);
+    }
+    if (crashWith(myGamePiece, myObstacles[i])) {
+      clearInterval(myGameArea.interval);
+    }
+    myObstacles[i].y += 1;
+    console.log(myObstacles);
+    update.image(myObstacles[i], myGameArea.context);
+  }
   if ((myGameArea.frameNo / 80) % 1 == 0) {
     myObstacles.push(new Component(...createAsteroid(myGameArea.canvas.width)));
-  }
-  
-  for (let i = 0; i < myObstacles.length; i += 1) {
-    myObstacles[i].y += 1;
-    update.image(myObstacles[i], myGameArea.context);
   }
   myScore.text = "SCORE: " + myGameArea.frameNo;
   update.text(myScore, myGameArea.context);
   newPos(myGamePiece);
   update.image(myGamePiece, myGameArea.context);
-  myBackground.speedY = 1;
-  //newPos(myBackground);
-  //update(myBackground, myGameArea.context);
   myGamePiece.speedX = 0;
   myGamePiece.speedY = 0;
   if (myGameArea.keys && myGameArea.keys[37]) {
