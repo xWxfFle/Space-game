@@ -5,15 +5,6 @@ function updateComponent(component, context) {
 
 function updateImage(image, context) {
   context.drawImage(image.image, image.x, image.y, image.width, image.height);
-  /*
-  context.drawImage(
-    image.image,
-    image.x,
-    image.y + image.height,
-    image.width,
-    image.height
-  );
-  */
 }
 
 function updateText(text, context) {

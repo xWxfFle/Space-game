@@ -1,87 +1,60 @@
-import Component from "./modules/Component.js";
 import * as update from "./modules/controllers/updateController.js";
 import crashWith from "./modules/controllers/crashController.js";
-import hitBorder from "./modules/controllers/hitBorderController.js";
-import createAsteroid from "./modules/createAsteroid.js";
+import ComponentFactory from "./modules/ComponentFactory.js";
+const factory = new ComponentFactory()
 
-let myGamePiece, myScore;
+let myGamePiece, myScore, context, interval, frameNo;
+const canvas = document.createElement("canvas");
+const keys = [];
 const myObstacles = [];
 function startGame() {
-  myGameArea.start();
-  myGamePiece = new Component(
-    40,
-    40,
-    "/scr/img/starship.jpg",
-    230,
-    700,
-    "image"
-  );
-  myScore = new Component("30px", "Consolas", "white", 280, 40, "text");
+  canvas.width = 600;
+  canvas.height = 800;
+  context = canvas.getContext("2d");
+  frameNo = 0;
+  document.body.insertBefore(canvas, document.body.childNodes[0]);
+  interval = setInterval(updateGameArea, 20);
+  window.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = e.type == "keydown";
+  });
+  window.addEventListener("keyup", function (e) {
+    keys[e.keyCode] = e.type == "keydown";
+  });
+  myGamePiece = factory.createPlayer();
+  console.log(myGamePiece);
+  myScore = factory.createText();
 }
-
-function newPos(component) {
-  component.x += component.speedX;
-  component.y += component.speedY;
-  hitBorder(component, myGameArea.canvas);
-}
-
-const myGameArea = {
-  canvas: document.createElement("canvas"),
-  start: function () {
-    this.canvas.width = 500;
-    this.canvas.height = 800;
-    this.context = this.canvas.getContext("2d");
-    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.frameNo = 0;
-    this.interval = setInterval(updateGameArea, 20);
-    window.addEventListener("keydown", function (e) {
-      myGameArea.keys = myGameArea.keys || [];
-      myGameArea.keys[e.keyCode] = e.type == "keydown";
-    });
-    window.addEventListener("keyup", function (e) {
-      myGameArea.keys[e.keyCode] = e.type == "keydown";
-    });
-  },
-};
 
 function updateGameArea() {
-  myGameArea.context.clearRect(
-    0,
-    0,
-    myGameArea.canvas.width,
-    myGameArea.canvas.height
-  );
-  myGameArea.frameNo += 1;
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  frameNo += 1;
   for (let i = 0; i < myObstacles.length; i += 1) {
-    if (myObstacles[i].y > myGameArea.canvas.height) {
+    if (myObstacles[i].y > canvas.height) {
       myObstacles.splice(i, 1);
     }
     if (crashWith(myGamePiece, myObstacles[i])) {
-      clearInterval(myGameArea.interval);
+      clearInterval(interval);
     }
     myObstacles[i].y += 1;
-    console.log(myObstacles);
-    update.image(myObstacles[i], myGameArea.context);
+    update.image(myObstacles[i], context);
   }
-  if ((myGameArea.frameNo / 80) % 1 == 0) {
-    myObstacles.push(new Component(...createAsteroid(myGameArea.canvas.width)));
+  if ((frameNo / 80) % 1 == 0) {
+    myObstacles.push(factory.create(canvas.width, "asteroid"));
   }
-  myScore.text = "SCORE: " + myGameArea.frameNo;
-  update.text(myScore, myGameArea.context);
-  newPos(myGamePiece);
-  update.image(myGamePiece, myGameArea.context);
-  myGamePiece.speedX = 0;
-  myGamePiece.speedY = 0;
-  if (myGameArea.keys && myGameArea.keys[37]) {
+  myScore.text = "SCORE: " + frameNo;
+  update.text(myScore, context);
+  myGamePiece.newPosition(canvas);
+  update.image(myGamePiece, context);
+  if (keys && keys[37]) {
     myGamePiece.speedX = -2;
   }
-  if (myGameArea.keys && myGameArea.keys[39]) {
+  if (keys && keys[39]) {
     myGamePiece.speedX = 2;
   }
-  if (myGameArea.keys && myGameArea.keys[38]) {
+  if (keys && keys[38]) {
     myGamePiece.speedY = -2;
   }
-  if (myGameArea.keys && myGameArea.keys[40]) {
+  if (keys && keys[40]) {
     myGamePiece.speedY = 2;
   }
 }
