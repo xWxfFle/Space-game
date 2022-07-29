@@ -1,19 +1,25 @@
 import Component, { Player } from "./Component.js";
 export default class ComponentFactory {
-  createPlayer() {
-    return new Player(40, 40, "/scr/img/starship.jpg", 230, 700, "image");
-  }
-  createText() {
-    return new Component("30px", "Consolas", "white", 280, 40, "text");
+  constructor(canvas) {
+    this.canvasWidth = canvas.width;
+    this.canvasHeight = canvas.height;
   }
 
-  create(containerWidth, type) {
-    const size = 40;
-    const x = Math.floor(Math.random() * (containerWidth - size));
+  create(type) {
+    if (type === "player") {
+      return new Player(80, 80, "/scr/img/space3.png", 230, 700, "image", this.canvasWidth ,  this.canvasHeight);
+    }
+    if (type == "text") {
+      return new Component("30px", "Consolas", "white", 280, 40, "text");
+    }
     if (type === "asteroid") {
-      return new Component(size, size, "/scr/img/asteroid.png", x, -size, "image");
+        const size = 70;
+        const x = Math.floor(Math.random() * (this.canvasWidth - size));
+      return new Component(size, size, "/scr/img/ast.png", x, -size, "image");
     }
     if (type === "booster") {
+        const size = 70;
+        const x = Math.floor(Math.random() * (this.canvasWidth - size));
       return new Component(size, size, "/scr/img/coin.jpg", x, -size, "image");
     }
   }

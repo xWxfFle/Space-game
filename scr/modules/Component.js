@@ -14,24 +14,19 @@ export default class Component {
     }
   }
 }
+
 export class Player extends Component {
-  constructor(width, height, color, x, y, type) {
+  constructor(width, height, color, x, y, type, canvasWidth, canvasHeight) {
     super(width, height, color, x, y, type);
-  }
-  newPosition(canvas) {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    this.speedX = 0;
-    this.speedY = 0;
-
-    this.hitBorder(canvas);
+    this.canvasHeight = canvasHeight;
+    this.canvasWidth = canvasWidth;
   }
 
-  hitBorder(canvas) {
-    const bottomBorder = canvas.height - this.height;
+  get newPosition() {
+    const bottomBorder = this.canvasHeight - this.height;
     const topBorder = 0;
     const leftBorder = 0;
-    const rightBorder = canvas.width - this.width;
+    const rightBorder = this.canvasWidth - this.width;
 
     if (this.y > bottomBorder) {
       this.y = bottomBorder;
@@ -45,5 +40,10 @@ export class Player extends Component {
     if (this.x < leftBorder) {
       this.x = rightBorder;
     }
+
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.speedX = 0;
+    this.speedY = 0;
   }
 }
