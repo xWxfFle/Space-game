@@ -1,4 +1,4 @@
-import Updater from "./modules/controllers/updateController.js"
+import Update from "./modules/ComponentUpdate.js";
 import crashWith from "./modules/controllers/crashController.js";
 import ComponentFactory from "./modules/ComponentFactory.js";
 let player, myScore, interval, frameNo;
@@ -7,7 +7,7 @@ canvas.width = 480;
 canvas.height = 720;
 const keys = [];
 const myObstacles = [];
-const updater = new Updater(canvas);
+const update = new Update(canvas);
 const factory = new ComponentFactory(canvas);
 function startGame() {
   frameNo = 0;
@@ -25,18 +25,20 @@ function startGame() {
 function updateGameArea() {
   //Wiping canvas
   canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-  
+
   frameNo += 1;
-  for (let i = 0; i < myObstacles.length; i += 1) {
-    if (myObstacles[i].y > canvas.height) {
-      myObstacles.splice(i, 1);
+  myObstacles.forEach((element, index) => {
+    if (element.y > canvas.height) {
+      myObstacles.splice(index, 1);
     }
-    if (crashWith(player, myObstacles[i])) {
-      clearInterval(interval);
+    if (crashWith(player, element)) {
+      element.type === "booster"
+        ? (player.boosterActivated = true)
+        : clearInterval(interval);
     }
-    myObstacles[i].y += 1;
-    updater.update(myObstacles[i])
-  }
+    element.y += 1;
+    update.render(element);
+  });
   if ((frameNo / 120) % 1 == 0) {
     myObstacles.push(factory.create("asteroid"));
   }
@@ -44,9 +46,9 @@ function updateGameArea() {
     myObstacles.push(factory.create("booster"));
   }
   myScore.text = "SCORE: " + frameNo;
-  updater.update(myScore)
+  update.render(myScore);
   player.newPosition;
-  updater.update(player);
+  update.render(player);
 
   if (keys && keys[37]) {
     player.speedX = -2;
