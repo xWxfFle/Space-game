@@ -7,7 +7,7 @@ export default class ComponentFactory {
 
   create(type) {
     if (type === "player") {
-      return new Player(80, 80, "/scr/img/space3.png", 230, 700, "image", this.canvasWidth ,  this.canvasHeight);
+      return new Player(70, 70, "/scr/img/space3.png", 230, 700, "image", this.canvasWidth ,  this.canvasHeight);
     }
     if (type == "text") {
       return new Component("30px", "Consolas", "white", 280, 40, "text");

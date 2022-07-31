@@ -20,6 +20,7 @@ export class Player extends Component {
     super(width, height, color, x, y, type);
     this.canvasHeight = canvasHeight;
     this.canvasWidth = canvasWidth;
+    this.boosterActivated = false
   }
 
   get newPosition() {
