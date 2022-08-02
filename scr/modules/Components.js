@@ -1,9 +1,11 @@
 export default class Component {
-  constructor(width, height, image, x, y, type) {
+  constructor(width, height, imageDefault, imageAlternative, x, y, type) {
     this.image = new Image();
-    this.image.src = image;
+    this.imageDefault = imageDefault;
+    this.imageAlternative = imageAlternative;
+    this.image.src = this.imageDefault;
     this.render = "image";
-    this.type = type
+    this.type = type;
     this.width = width;
     this.height = height;
     this.speedX = 0;
@@ -14,11 +16,28 @@ export default class Component {
 }
 
 export class Player extends Component {
-  constructor(width, height, image, x, y, canvasWidth, canvasHeight) {
-    super(width, height, image, x, y);
+  constructor(
+    width,
+    height,
+    imageDefault,
+    imageAlternative,
+    x,
+    y,
+    canvasWidth,
+    canvasHeight
+  ) {
+    super(width, height, imageDefault, imageAlternative, x, y);
     this.canvasHeight = canvasHeight;
     this.canvasWidth = canvasWidth;
-    this.boosterActivated = false;
+    this.booster = false;
+  }
+  get boost() {
+    this.image.src = this.imageAlternative;
+    this.booster = true;
+    setTimeout(() => {
+      this.booster = false;
+      this.image.src = this.imageDefault;
+    }, 7000);
   }
 
   get newPosition() {
