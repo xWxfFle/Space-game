@@ -19,11 +19,22 @@ body {
 canvas {
   position: absolute;
 }
-#ui-layer {
+#ui-layer--3 {
   z-index: 3;
-  background-color: red;
-  opacity: 5%;
+  background-color: rgba(0, 255, 55, 0.5);
+  background-blend-mode: overlay;
+  animation: blinking 0.3s ease-out infinite,
+    glitch-anim-horizontal 5s linear infinite alternate;
 }
+#ui-layer--2 {
+   z-index: 3;
+  background-color: rgba(255, 0, 0, 0.6);
+  background-blend-mode: overlay;
+  clip-path: polygon(0 0, 0 1%, 100% 1%, 100% 0);
+  animation: blinking 1s linear infinite,
+    glitch-anim-vertical 3s ease infinite alternate;
+}
+
 #game-layer {
   z-index: 2;
   animation: glitch 60s infinite;
@@ -31,6 +42,75 @@ canvas {
 #background-layer {
   z-index: 1;
   background-image: url(./img/background.jpg);
+}
+@keyframes blinking {
+  0% {
+    opacity: 0.25;
+  }
+  70%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes glitch-anim-horizontal {
+  0% {
+    clip-path: polygon(0 0, 0 100%, 2% 100%, 2% 0);
+  }
+  10% {
+    clip-path: polygon(35% 0, 35% 100%, 37% 100%, 37% 0);
+  }
+  25% {
+    clip-path: polygon(25% 0, 25% 100%, 27% 100%, 27% 0);
+  }
+  40% {
+    clip-path: polygon(35% 0, 35% 100%, 37% 100%, 37% 0);
+  }
+  50% {
+    clip-path: polygon(75% 0, 75% 100%, 77% 100%, 77% 0);
+  }
+  60% {
+    clip-path: polygon(65% 0, 65% 100%, 67% 100%, 67% 0);
+  }
+  75% {
+    clip-path: polygon(35% 0, 35% 100%, 37% 100%, 37% 0);
+  }
+  85% {
+    clip-path: polygon(85% 0, 85% 100%, 87% 100%, 87% 0);
+  }
+  100% {
+    clip-path: polygon(100% 0, 100% 100%, 100% 100%, 100% 0);
+  }
+}
+
+@keyframes glitch-anim-vertical {
+  0% {
+    clip-path: polygon(0 0, 0 1%, 100% 1%, 100% 0);
+  }
+  10% {
+    clip-path: polygon(0 20%, 0 21%, 100% 21%, 100% 20%);
+  }
+  25% {
+    clip-path: polygon(0 75%, 0 76%, 100% 76%, 100% 75%);
+  }
+  40% {
+    clip-path: polygon(0 40%, 0 41%, 100% 41%, 100% 40%);
+  }
+  50% {
+    clip-path: polygon(0 90%, 0 91%, 100% 91%, 100% 90%);
+  }
+  60% {
+    clip-path: polygon(0 80%, 0 85%, 100% 85%, 100% 80%);
+  }
+  75% {
+    clip-path: polygon(0 32%, 0 33%, 100% 33%, 100% 32%);
+  }
+  85% {
+    clip-path: polygon(0 65%, 0 66%, 100% 66%, 100% 65%);
+  }
+  100% {
+    clip-path: polygon(0 35%, 0 50%, 100% 50%, 100% 35%);
+  }
 }
 
 @keyframes glitch {

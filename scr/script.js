@@ -7,7 +7,6 @@ const renderer = new Renderer(canvas);
 const factory = new ComponentFactory(canvas);
 
 function startGame() {
-  document.body.insertBefore(canvas, document.body.childNodes[0]);
   let frameNo = 0;
   const keys = [];
   const obstacles = [];
