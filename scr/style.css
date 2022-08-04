@@ -9,10 +9,69 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(13, 0, 48);
+  background-color: rgb(16, 0, 75);
 }
 canvas {
   border: 1px black solid;
   background-color: white;
   background-image: url(./img/background.jpg);
+  animation: glitch 20s infinite;
+}
+@keyframes glitch {
+  0% {
+    filter: contrast(1.2) brightness(1);
+    transform: none;
+  }
+  7% {
+    transform: translate(-2px, -3px);
+    transform: skew(-0.5deg, -0.9deg);
+    background-position: 0px 0px;
+  }
+
+  8% {
+    filter: contrast(1) brightness(1) hue-rotate(0deg);
+    background-position: 0px 25px;
+    transform: none;
+  }
+  10% {
+    transform: translate(2px, 3px);
+  }
+  27% {
+    filter: blur(1px);
+    transform: none;
+  }
+  30% {
+    /*filter: contrast(2) brightness(2.5) invert(1) blur(1px);*/
+    transform: translate(-5px, -2px);
+    transform: skew(0.8deg, -0.1deg);
+  }
+  40% {
+    filter: none;
+    transform: translate(5px, 2px);
+  }
+  52% {
+    transform: translate(-5px, -1px);
+  }
+  55% {
+    transform: skew(-1deg, 0.2deg);
+    filter: grayscale(0.2);
+  }
+  50% {
+    transform: none;
+  }
+  72% {
+    filter: brightness(1.4);
+    transform: none;
+  }
+  75% {
+    transform: translate(-2px, -6px);
+    transform: skew(0.4deg, 1deg);
+  }
+  80% {
+    transform: translate(2px, 6px);
+    transform: none;
+  }
+  100% {
+    transform: none;
+  }
 }

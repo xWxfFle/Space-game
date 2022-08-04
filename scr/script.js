@@ -9,7 +9,7 @@ function startGame() {
   let frameNo = 0;
   const interval = setInterval(updateGameArea, 15);
   const keys = [];
-  const myObstacles = [];
+  const obstacles = [];
   const update = new Update(canvas);
   const factory = new ComponentFactory(canvas);
   const player = factory.create("player");
@@ -26,19 +26,18 @@ function startGame() {
     //Wiping canvas
     canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
     frameNo += 1;
-    myObstacles.forEach((element, index) => {
+    obstacles.forEach((element, index) => {
       if (element.y > canvas.height) {
-        myObstacles.splice(index, 1);
+        obstacles.splice(index, 1);
       }
-
       if (crashWith(player, element)) {
-        if (element.type === "booster") {
-          player.boost;
-          myObstacles.splice(index, 1);
+        if (element.type === "shield") {
+          player.activateShield;
+          obstacles.splice(index, 1);
         } else {
-          if (player.booster) {
+          if (player.shield) {
             element.image.scr = element.imageAlternative;
-            myObstacles.splice(index, 1);
+            obstacles.splice(index, 1);
           } else {
             clearInterval(interval);
           }
@@ -49,11 +48,12 @@ function startGame() {
     });
 
     if ((frameNo / 120) % 1 == 0) {
-      myObstacles.push(factory.create("asteroid"));
+      obstacles.push(factory.create("asteroid"));
     }
     if ((frameNo / 1000) % 1 == 0) {
-      myObstacles.push(factory.create("booster"));
+      obstacles.push(factory.create("shield"));
     }
+    
     myScore.text = "SCORE: " + frameNo;
     update.render(myScore);
     player.newPosition;

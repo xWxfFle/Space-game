@@ -29,13 +29,13 @@ export class Player extends Component {
     super(width, height, imageDefault, imageAlternative, x, y);
     this.canvasHeight = canvasHeight;
     this.canvasWidth = canvasWidth;
-    this.booster = false;
+    this.shield = false;
   }
-  get boost() {
+  get activateShield() {
     this.image.src = this.imageAlternative;
-    this.booster = true;
+    this.shield = true;
     setTimeout(() => {
-      this.booster = false;
+      this.shield = false;
       this.image.src = this.imageDefault;
     }, 7000);
   }
