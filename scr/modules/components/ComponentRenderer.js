@@ -1,8 +1,8 @@
-export default class Update {
+export default class Renderer {
   constructor(canvas) {
     this.context = canvas.getContext("2d");
   }
-  render(component) {
+  draw(component) {
     if (component.render === "image") {
       this.context.drawImage(
         component.image,

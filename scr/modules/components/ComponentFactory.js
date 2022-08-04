@@ -1,4 +1,4 @@
-import Component, { Player, Text } from "./Components.js";
+import Component, { Player, Text } from "./Component.js";
 export default class ComponentFactory {
   constructor(canvas) {
     this.canvasWidth = canvas.width;

@@ -1,19 +1,18 @@
-import Update from "./modules/ComponentUpdate.js";
 import crashWith from "./modules/controllers/crashController.js";
-import ComponentFactory from "./modules/ComponentFactory.js";
+import ComponentFactory from "./modules/components/ComponentFactory.js";
+import Renderer from "./modules/components/ComponentRenderer.js";
+
+const canvas = document.getElementById("game-layer");
+const renderer = new Renderer(canvas);
+const factory = new ComponentFactory(canvas);
+
 function startGame() {
-  const canvas = document.createElement("canvas");
-  canvas.width = 480;
-  canvas.height = 720;
   document.body.insertBefore(canvas, document.body.childNodes[0]);
   let frameNo = 0;
-  const interval = setInterval(updateGameArea, 15);
   const keys = [];
   const obstacles = [];
-  const update = new Update(canvas);
-  const factory = new ComponentFactory(canvas);
   const player = factory.create("player");
-  const myScore = factory.create("text");
+  const score = factory.create("text");
 
   window.addEventListener("keydown", function (e) {
     keys[e.keyCode] = e.type == "keydown";
@@ -21,6 +20,10 @@ function startGame() {
   window.addEventListener("keyup", function (e) {
     keys[e.keyCode] = e.type == "keydown";
   });
+  const interval = setInterval(updateGameArea, 15);
+
+  let speedModificator = 0;
+  let spawnModificator = 0;
 
   function updateGameArea() {
     //Wiping canvas
@@ -43,33 +46,34 @@ function startGame() {
           }
         }
       }
-      element.y += 1;
-      update.render(element);
+      element.y += 1 + speedModificator;
+      renderer.draw(element);
     });
 
-    if ((frameNo / 120) % 1 == 0) {
+    if ((frameNo / (120 - spawnModificator)) % 1 == 0) {
+      speedModificator < 3 ? (speedModificator += 0.1) : "";
+      spawnModificator < 100 ? (spawnModificator += 2) : "";
       obstacles.push(factory.create("asteroid"));
     }
     if ((frameNo / 1000) % 1 == 0) {
       obstacles.push(factory.create("shield"));
     }
-    
-    myScore.text = "SCORE: " + frameNo;
-    update.render(myScore);
+    score.text = "SCORE: " + frameNo;
+    renderer.draw(score);
     player.newPosition;
-    update.render(player);
+    renderer.draw(player);
 
     if (keys && keys[37]) {
-      player.speedX = -2;
+      player.speedX = -4;
     }
     if (keys && keys[39]) {
-      player.speedX = 2;
+      player.speedX = 4;
     }
     if (keys && keys[38]) {
-      player.speedY = -2;
+      player.speedY = -4;
     }
     if (keys && keys[40]) {
-      player.speedY = 2;
+      player.speedY = 4;
     }
   }
 }

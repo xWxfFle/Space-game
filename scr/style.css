@@ -11,12 +11,28 @@ body {
   align-items: center;
   background-color: rgb(16, 0, 75);
 }
-canvas {
-  border: 1px black solid;
-  background-color: white;
-  background-image: url(./img/background.jpg);
-  animation: glitch 20s infinite;
+.game {
+  width: 480px;
+  height: 720px;
+  position: relative;
 }
+canvas {
+  position: absolute;
+}
+#ui-layer {
+  z-index: 3;
+  background-color: red;
+  opacity: 5%;
+}
+#game-layer {
+  z-index: 2;
+  animation: glitch 60s infinite;
+}
+#background-layer {
+  z-index: 1;
+  background-image: url(./img/background.jpg);
+}
+
 @keyframes glitch {
   0% {
     filter: contrast(1.2) brightness(1);
@@ -41,7 +57,7 @@ canvas {
     transform: none;
   }
   30% {
-    /*filter: contrast(2) brightness(2.5) invert(1) blur(1px);*/
+    filter: contrast(2) brightness(2.5) invert(1) blur(1px);
     transform: translate(-5px, -2px);
     transform: skew(0.8deg, -0.1deg);
   }
