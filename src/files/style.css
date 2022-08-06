@@ -19,20 +19,28 @@ body {
 canvas {
   position: absolute;
 }
+
+#ui-layer--1 {
+  z-index: 3;
+  background-color: rgba(0, 89, 255, 0.5);
+  background-blend-mode: overlay;
+  animation: blinking 3s linear infinite,
+    glitch-anim-horizontal 3s ease infinite alternate;
+}
 #ui-layer--3 {
   z-index: 3;
   background-color: rgba(0, 255, 55, 0.5);
   background-blend-mode: overlay;
-  animation: blinking 0.3s ease-out infinite,
-    glitch-anim-horizontal 5s linear infinite alternate;
+  animation: blinking 1s ease-out infinite,
+    glitch-anim-horizontal 10s linear infinite alternate;
 }
 #ui-layer--2 {
-   z-index: 3;
-  background-color: rgba(255, 0, 0, 0.6);
+  z-index: 3;
+  background-color: rgba(255, 0, 0, 0.8);
   background-blend-mode: overlay;
   clip-path: polygon(0 0, 0 1%, 100% 1%, 100% 0);
   animation: blinking 1s linear infinite,
-    glitch-anim-vertical 3s ease infinite alternate;
+    glitch-anim-vertical 6s ease infinite alternate;
 }
 
 #game-layer {
@@ -142,7 +150,7 @@ canvas {
     transform: skew(0.8deg, -0.1deg);
   }
   40% {
-    filter: none;
+    filter: contrast(2) brightness(2.5) invert(1) blur(1px);
     transform: translate(5px, 2px);
   }
   52% {
