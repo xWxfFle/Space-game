@@ -5,21 +5,23 @@
   "main": "gulpfile.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "gulp"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xWxfFle/space-game.git"
+    "url": "git+https://github.com/xWxfFle/space-game.git "
   },
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/xWxfFle/space-game/issues"
   },
-  "homepage": "https://github.com/xWxfFle/space-game#readme",
+  "homepage": "https://xwxffle.github.io/space-game/",
   "devDependencies": {
     "browser-sync": "^2.27.10",
     "del": "^7.0.0",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.54.3"
   }
 }
