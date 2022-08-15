@@ -2,16 +2,16 @@ import crashWith from "./modules/controllers/crashController.js";
 import ComponentFactory from "./modules/components/ComponentFactory.js";
 import Renderer from "./modules/components/ComponentRenderer.js";
 
-const canvas = document.getElementById("game-layer");
+const canvas = document.getElementById("game-layer") as HTMLCanvasElement;
 const renderer = new Renderer(canvas);
 const factory = new ComponentFactory(canvas);
 
 function startGame() {
-  let frameNo = 0;
-  const keys = [];
-  const obstacles = [];
-  const player = factory.create("player");
-  const score = factory.create("text");
+  let frameNo: number = 0;
+  const keys: Array<boolean> = [];
+  const obstacles: Array<object> = [];
+  const player = factory.createPlayer();
+  const score = factory.createText();
 
   window.addEventListener("keydown", function (e) {
     keys[e.keyCode] = e.type == "keydown";
@@ -24,11 +24,12 @@ function startGame() {
   let speedModificator = 0;
   let spawnModificator = 0;
 
-  function updateGameArea() {
+  function updateGameArea(): void {
     //Wiping canvas
-    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+    canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
     frameNo += 1;
-    obstacles.forEach((element, index) => {
+
+    obstacles.forEach((element: any, index) => {
       if (element.y > canvas.height) {
         obstacles.splice(index, 1);
       }
@@ -52,10 +53,10 @@ function startGame() {
     if ((frameNo / (120 - spawnModificator)) % 1 == 0) {
       speedModificator < 3 ? (speedModificator += 0.1) : "";
       spawnModificator < 100 ? (spawnModificator += 2) : "";
-      obstacles.push(factory.create("asteroid"));
+      obstacles.push(factory.createObstacle("asteroid"));
     }
     if ((frameNo / 1000) % 1 == 0) {
-      obstacles.push(factory.create("shield"));
+      obstacles.push(factory.createObstacle("shield"));
     }
     score.text = "SCORE: " + frameNo;
     renderer.draw(score);

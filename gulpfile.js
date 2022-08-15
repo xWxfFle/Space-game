@@ -1,6 +1,7 @@
 import gulp from "gulp";
 import browserSync from "browser-sync";
 import dartSass from "sass";
+import ts from "gulp-typescript";
 import gulpSass from "gulp-sass";
 import { deleteAsync } from "del";
 
@@ -12,6 +13,22 @@ const copy = () => {
   return gulp.src("src/files/**/*.*").pipe(gulp.dest("dist/files/"));
 };
 
+const scripts = () => {
+  return gulp
+    .src("src/ts/**/*.ts")
+    .pipe(
+      ts({
+        noImplicitAny: true,
+        target: "esnext",
+        module: "esnext",
+        esModuleInterop: true,
+        moduleResolution: "node",
+        outDir: "dist/js/",
+      })
+    )
+    .pipe(gulp.dest("dist/js/"))
+    .pipe(browserSync.stream());
+};
 const html = () => {
   return gulp
     .src("src/*.html")
@@ -19,9 +36,8 @@ const html = () => {
     .pipe(browserSync.stream());
 };
 
-const sass = gulpSass(dartSass);
-
 const styles = () => {
+  const sass = gulpSass(dartSass);
   return gulp
     .src("src/scss/style.scss", { sourcemaps: true })
     .pipe(
@@ -44,10 +60,11 @@ const server = (done) => {
 
 function watcher() {
   gulp.watch("src/files/**/*.*", copy);
-  gulp.watch("src/**/*/*.html", html);
+  gulp.watch("src/**/*.html", html);
   gulp.watch("src/scss/**/*.scss", styles);
+  gulp.watch("src/ts/**/*.ts", scripts);
 }
 
-const mainTasks = gulp.parallel(copy, html, styles);
+const mainTasks = gulp.parallel(copy, html, styles, scripts);
 const dev = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
 gulp.task("default", dev);

@@ -1,3 +1,6 @@
+$width: 480px;
+$height: 720px;
+
 * {
   margin: 0;
   padding: 0;
@@ -12,14 +15,20 @@ body {
   background-color: rgb(16, 0, 75);
 }
 .game {
-  width: 480px;
-  height: 720px;
+  width: $width;
+  height: $height;
   position: relative;
-}
-canvas {
-  position: absolute;
-}
 
+  canvas {
+    width: $width;
+    height: $height;
+    position: absolute;
+  }
+}
+.ui-layer {
+  z-index: 3;
+}
+/*
 #ui-layer--1 {
   z-index: 3;
   background-color: rgba(0, 89, 255, 0.5);
@@ -42,15 +51,17 @@ canvas {
   animation: blinking 1s linear infinite,
     glitch-anim-vertical 6s ease infinite alternate;
 }
+*/
 
 #game-layer {
   z-index: 2;
-  animation: glitch 60s infinite;
+ // animation: glitch 60s infinite;
 }
 #background-layer {
   z-index: 1;
   background-image: url(../files/img/background.jpg);
 }
+
 @keyframes blinking {
   0% {
     opacity: 0.25;
