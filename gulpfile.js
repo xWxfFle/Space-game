@@ -19,7 +19,7 @@ const scripts = () => {
     .pipe(
       ts({
         noImplicitAny: true,
-        target: "esnext",
+        target: "es5",
         module: "esnext",
         esModuleInterop: true,
         moduleResolution: "node",

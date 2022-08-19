@@ -15,22 +15,22 @@ export default class ComponentFactory {
       700,
       50,
       70,
-      "/files/img/space3.png",
-      "/files/img/shield.png",
+      "files/img/space3.png",
+      "files/img/shield.png",
       this.canvasWidth,
       this.canvasHeight
     );
   }
 
-  createText() {
-    return new Text("30px", "Consolas", "white", 280, 40);
+  createText(x: number, y: number) {
+    return new Text("30px", "Consolas", "white", x, y);
   }
 
   createObstacle(type: "asteroid" | "shield") {
     const img =
-      type === "asteroid" ? "/files/img/ast.png" : "/files/img/coin1.png";
+      type === "asteroid" ? "files/img/ast.png" : "files/img/coin1.png";
     const size = 70;
     const x = Math.floor(Math.random() * (this.canvasWidth - size));
-    return new Obstacle(x, -size, size, size, img, "/files/img/exp.png", type);
+    return new Obstacle(x, -size, size, size, img, "files/img/exp.png", type);
   }
 }

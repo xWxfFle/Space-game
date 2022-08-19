@@ -4,10 +4,10 @@ abstract class Component {
   constructor(
     public x: number,
     public y: number,
-    public width: number,
-    public height: number,
-    public imageDefault: string,
-    public imageAlternative: string
+    readonly width: number,
+    readonly height: number,
+    readonly imageDefault: string,
+    readonly imageAlternative: string
   ) {
     this.image.src = this.imageDefault;
   }
@@ -21,7 +21,7 @@ export class Obstacle extends Component {
     height: number,
     imageDefault: string,
     imageAlternative: string,
-    public type: "asteroid" | "shield"
+    readonly type: "asteroid" | "shield"
   ) {
     super(x, y, width, height, imageDefault, imageAlternative);
   }
@@ -29,7 +29,7 @@ export class Obstacle extends Component {
 export class Player extends Component {
   speedX: number = 0;
   speedY: number = 0;
-  public shield: boolean = false;
+  shield: boolean = false;
 
   constructor(
     x: number,
@@ -87,10 +87,10 @@ export class Player extends Component {
 export class Text {
   public text: string;
   constructor(
-    public fontSize: string,
-    public fontName: string,
-    public color: string,
-    public x: any,
-    public y: any
+    readonly fontSize: string,
+    readonly fontName: string,
+    readonly color: string,
+    public x: number,
+    public y: number
   ) {}
 }

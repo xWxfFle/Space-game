@@ -5,12 +5,12 @@ export default class Renderer {
   constructor(canvas: HTMLCanvasElement) {
     this.context = canvas.getContext("2d");
   }
-  draw(component: Player | Text | Obstacle): void {
+  draw(component: Player | Text | Array<Obstacle>): void {
     if (component instanceof Text) {
       this.context.font = component.fontSize + " " + component.fontName;
       this.context.fillStyle = component.color;
       this.context.fillText(component.text, component.x, component.y);
-    } else {
+    } else if (component instanceof Player) {
       this.context.drawImage(
         component.image,
         component.x,
@@ -18,6 +18,16 @@ export default class Renderer {
         component.width,
         component.height
       );
+    } else {
+      component.forEach((element: Obstacle) => {
+        this.context.drawImage(
+          element.image,
+          element.x,
+          element.y,
+          element.width,
+          element.height
+        );
+      });
     }
   }
 }
