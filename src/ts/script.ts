@@ -10,52 +10,41 @@ function startGame() {
   let frameNo = 0;
   const obstacles: Array<any> = [];
   const player = factory.createPlayer();
-  const scoreBar = factory.createText(280, 50);
+  const scoreBar = factory.createText(210, 50);
 
   const healthContainer = ["🤍", "🤍", "🤍"];
-  const healthBar = factory.createText(40, 50);
+  const healthBar = factory.createText(30, 50);
   const directions = {
     ArrowLeft: false,
     ArrowUp: false,
     ArrowDown: false,
     ArrowRight: false,
   };
+
   window.addEventListener("keydown", (e) => {
-    switch (e.key) {
-      case "ArrowLeft":
-        directions.ArrowLeft = true;
-        break;
-      case "ArrowUp":
-        directions.ArrowUp = true;
-        break;
-      case "ArrowDown":
-        directions.ArrowDown = true;
-        break;
-      case "ArrowRight":
-        directions.ArrowRight = true;
-        break;
-      default:
-        return;
-    }
+    movementController(e.key, true);
   });
+  window.addEventListener("mousedown", (e) => {
+    const clickedButton = (e.target as Element).closest("button");
+    movementController(clickedButton?.className, true);
+  });
+  window.addEventListener("touchstart", (e) => {
+    const clickedButton = (e.target as Element).closest("button");
+    movementController(clickedButton?.className, true);
+  });
+
   window.addEventListener("keyup", (e) => {
-    switch (e.key) {
-      case "ArrowLeft":
-        directions.ArrowLeft = false;
-        break;
-      case "ArrowUp":
-        directions.ArrowUp = false;
-        break;
-      case "ArrowDown":
-        directions.ArrowDown = false;
-        break;
-      case "ArrowRight":
-        directions.ArrowRight = false;
-        break;
-      default:
-        return;
-    }
+    movementController(e.key, false);
   });
+  window.addEventListener("mouseup", (e) => {
+    const clickedButton = (e.target as Element).closest("button");
+    movementController(clickedButton?.className, false);
+  });
+  window.addEventListener("touchend", (e) => {
+    const clickedButton = (e.target as Element).closest("button");
+    movementController(clickedButton?.className, false);
+  });
+
   const interval = setInterval(updateGameArea, 10);
 
   let speedModificator = 0;
@@ -67,35 +56,26 @@ function startGame() {
     frameNo += 1;
 
     obstacles.forEach((element: any, index) => {
-      if (element.y > canvas.height) {
-        obstacles.splice(index, 1);
-      }
+      if (element.y > canvas.height) return obstacles.splice(index, 1);
 
       if (crashWith(player, element)) {
-        if (element.type === "shield") {
-          player.activateShield;
-          obstacles.splice(index, 1);
-        } else {
-          if (player.shield) {
-            obstacles.splice(index, 1);
-          } else if (healthContainer.length) {
-            obstacles.splice(index, 1);
-            healthContainer.pop();
-          } else {
-            clearInterval(interval);
-          }
-        }
+        obstacles.splice(index, 1);
+        if (player.shield) return;
+        if (element.type === "shield") return player.activateShield;
+        if (healthContainer.length) return healthContainer.pop();
+        clearInterval(interval);
       }
+
       element.y += 1 + speedModificator;
     });
 
     if ((frameNo / (120 - spawnModificator)) % 1 == 0) {
       speedModificator < 3 ? (speedModificator += 0.1) : "";
       spawnModificator < 100 ? (spawnModificator += 2) : "";
-      obstacles.push(factory.createObstacle("asteroid"));
+      obstacles.push(factory.creacteAsteroid());
     }
     if ((frameNo / 1000) % 1 == 0) {
-      obstacles.push(factory.createObstacle("shield"));
+      obstacles.push(factory.createShield());
     }
 
     if (directions.ArrowLeft) {
@@ -122,6 +102,25 @@ function startGame() {
 
     player.newPosition;
     renderer.draw(player);
+  }
+
+  function movementController(listener: string | undefined, value: boolean) {
+    switch (listener) {
+      case "ArrowLeft":
+        directions.ArrowLeft = value;
+        break;
+      case "ArrowUp":
+        directions.ArrowUp = value;
+        break;
+      case "ArrowDown":
+        directions.ArrowDown = value;
+        break;
+      case "ArrowRight":
+        directions.ArrowRight = value;
+        break;
+      default:
+        return;
+    }
   }
 }
 startGame();

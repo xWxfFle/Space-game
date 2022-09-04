@@ -6,21 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Space Game</title>
     <link rel="stylesheet" href="css/style.css" />
+    <script type="module" src="js/script.js" defer></script>
   </head>
   <body>
     <div class="game">
-      <canvas class="ui-layer" id="ui-layer--1"></canvas>
-      <canvas class="ui-layer" id="ui-layer--2"></canvas>
-      <canvas class="ui-layer" id="ui-layer--3"></canvas>
-      <canvas id="game-layer" width="480" height="640"></canvas>
+      <canvas id="ui-layer"></canvas>
+      <canvas id="game-layer" width="420" height="580"></canvas>
       <canvas id="background-layer"></canvas>
     </div>
     <div class="controller">
-      <button class="left"></button>
-      <button class="up"></button>
-      <button class="down"></button>
-      <button class="right"></button>
+      <button class="ArrowLeft"></button>
+      <button class="ArrowUp"></button>
+      <button class="ArrowDown"></button>
+      <button class="ArrowRight"></button>
     </div>
-    <script type="module" src="js/script.js"></script>
   </body>
 </html>

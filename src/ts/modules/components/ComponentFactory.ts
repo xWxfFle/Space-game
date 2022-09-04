@@ -13,24 +13,51 @@ export default class ComponentFactory {
     return new Player(
       230,
       700,
-      50,
-      70,
-      "files/img/space3.png",
-      "files/img/shield.png",
+      75,
+      60,
+      "files/img/spaceship.png",
+      "files/img/shielded.png",
       this.canvasWidth,
       this.canvasHeight
     );
   }
 
   createText(x: number, y: number) {
-    return new Text("30px", "Consolas", "white", x, y);
+    return new Text("30px", "Lucida Console", "white", x, y);
   }
 
-  createObstacle(type: "asteroid" | "shield") {
-    const img =
-      type === "asteroid" ? "files/img/ast.png" : "files/img/coin1.png";
+  creacteAsteroid() {
+    const asteroidsImages = [
+      "files/img/asteroid-1.png",
+      "files/img/asteroid-2.png",
+      "files/img/asteroid-3.png",
+    ];
+    const image =
+      asteroidsImages[Math.floor(Math.random() * asteroidsImages.length)];
     const size = 70;
     const x = Math.floor(Math.random() * (this.canvasWidth - size));
-    return new Obstacle(x, -size, size, size, img, "files/img/exp.png", type);
+    return new Obstacle(
+      x,
+      -size,
+      size,
+      size,
+      image,
+      "files/img/exp.png",
+      "asteroid"
+    );
+  }
+
+  createShield() {
+    const size = 70;
+    const x = Math.floor(Math.random() * (this.canvasWidth - size));
+    return new Obstacle(
+      x,
+      -size,
+      size,
+      size,
+      "files/img/shield.png",
+      "files/img/exp.png",
+      "shield"
+    );
   }
 }

@@ -10,6 +10,16 @@ $color__contrast: #9a2257;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-callout: none;
+  -webkit-user-drag: none;
+  -webkit-user-modify: none;
+  -webkit-highlight: none;
+  user-select: none;
 }
 
 body {
@@ -21,7 +31,6 @@ body {
   grid-template-areas:
     ". game ."
     ". button .";
-
   overflow: hidden;
   background-color: $color__background;
 }
@@ -29,19 +38,18 @@ body {
 .controller {
   box-shadow: 8px 6px 0 $color__main__shadow;
   padding-left: 40px;
-  padding-top: 10px;
   grid-area: button;
   background-color: $color__main;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   display: grid;
-  grid-template-columns: 50px 50px 50px;
-  grid-template-rows: 50px 50px 50px;
+  grid-template-columns: 55px 55px 55px;
+  grid-template-rows: 55px 55px 55px;
   gap: 0px 0px;
   grid-template-areas:
-    ". up ."
-    "left . right"
-    ". down .";
+    ". ArrowUp ."
+    "ArrowLeft . ArrowRight"
+    ". ArrowDown  .";
   button {
     $angle: 8px;
     $angle-o: 4px;
@@ -49,8 +57,8 @@ body {
 
     border-radius: 40px;
     outline: none;
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     border: 2px solid $color__second;
     transition: all 0.15s linear 0s;
     position: relative;
@@ -58,7 +66,7 @@ body {
     box-shadow: -6px 6px 0 $color__shadow;
     text-decoration: none;
 
-    &:hover {
+    &:active {
       top: 3px;
       left: -3px;
       box-shadow: -3px 3px 0 $color__shadow;
@@ -77,65 +85,25 @@ body {
         height: $angle-o;
       }
     }
-
-    &::after {
-      transition: all 0.15s linear 0s;
-      content: "";
-      position: absolute;
-      top: 2px;
-      left: -4px;
-      width: $angle;
-      height: $angle;
-      background-color: $color__shadow;
-      transform: rotate(45deg);
-      z-index: -1;
-    }
-
-    &::before {
-      transition: all 0.15s linear 0s;
-      position: absolute;
-      bottom: -4px;
-      right: 2px;
-      width: $angle;
-      height: $angle;
-      background-color: $color__shadow;
-      transform: rotate(45deg);
-      z-index: -1;
-    }
-    &:active {
-      top: 6px;
-      left: -6px;
-      box-shadow: none;
-
-      &:before {
-        bottom: 1px;
-        right: 1px;
-      }
-
-      &:after {
-        top: 1px;
-        left: 1px;
-      }
-    }
+  }
+  .ArrowUp {
+    background-color: $color__second;
+    grid-area: ArrowUp;
+  }
+  .ArrowRight {
+    background-color: $color__contrast;
+    grid-area: ArrowRight;
+  }
+  .ArrowDown {
+    background-color: $color__contrast;
+    grid-area: ArrowDown;
+  }
+  .ArrowLeft {
+    background-color: $color__second;
+    grid-area: ArrowLeft;
   }
 }
 
-.up {
-  background-color: $color__second;
-  grid-area: up;
-}
-.right {
-  background-color: $color__contrast;
-  grid-area: right;
-}
-.down {
-  background-color: $color__contrast;
-  grid-area: down;
-}
-.left {
-  background-color: $color__second;
-  grid-area: left;
-}
 .game {
   margin-top: 20px;
   border-top-left-radius: 20px;
@@ -156,168 +124,19 @@ body {
     position: absolute;
   }
 }
-.ui-layer {
+
+#ui-layer {
   z-index: 3;
 }
-/*
-#ui-layer--1 {
 
-  background-color: rgba(0, 89, 255, 0.5);
-  background-blend-mode: overlay;
-  animation: blinking 3s linear infinite,
-    glitch-anim-horizontal 3s ease infinite alternate;
-}
-*/
-#ui-layer--3 {
-  background-color: #84d07d;
-  opacity: 0.2;
-}
-/*
-#ui-layer--2 {
-  background-color: rgba(255, 0, 0, 0.8);
-  background-blend-mode: overlay;
-  clip-path: polygon(0 0, 0 1%, 100% 1%, 100% 0);
-  animation: blinking 1s linear infinite,
-    glitch-anim-vertical 6s ease infinite alternate;
-}
-*/
 #game-layer {
   z-index: 2;
-  //animation: glitch 60s infinite;
 }
 #background-layer {
   z-index: 1;
-  background-image: url(../files/img/background.jpg);
+  background-image: url(../files/img/space.gif);
 }
 
-@keyframes blinking {
-  0% {
-    opacity: 0.25;
-  }
-  70%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes glitch-anim-horizontal {
-  0% {
-    clip-path: polygon(0 0, 0 100%, 2% 100%, 2% 0);
-  }
-  10% {
-    clip-path: polygon(35% 0, 35% 100%, 37% 100%, 37% 0);
-  }
-  25% {
-    clip-path: polygon(25% 0, 25% 100%, 27% 100%, 27% 0);
-  }
-  40% {
-    clip-path: polygon(35% 0, 35% 100%, 37% 100%, 37% 0);
-  }
-  50% {
-    clip-path: polygon(75% 0, 75% 100%, 77% 100%, 77% 0);
-  }
-  60% {
-    clip-path: polygon(65% 0, 65% 100%, 67% 100%, 67% 0);
-  }
-  75% {
-    clip-path: polygon(35% 0, 35% 100%, 37% 100%, 37% 0);
-  }
-  85% {
-    clip-path: polygon(85% 0, 85% 100%, 87% 100%, 87% 0);
-  }
-  100% {
-    clip-path: polygon(100% 0, 100% 100%, 100% 100%, 100% 0);
-  }
-}
-
-@keyframes glitch-anim-vertical {
-  0% {
-    clip-path: polygon(0 0, 0 1%, 100% 1%, 100% 0);
-  }
-  10% {
-    clip-path: polygon(0 20%, 0 21%, 100% 21%, 100% 20%);
-  }
-  25% {
-    clip-path: polygon(0 75%, 0 76%, 100% 76%, 100% 75%);
-  }
-  40% {
-    clip-path: polygon(0 40%, 0 41%, 100% 41%, 100% 40%);
-  }
-  50% {
-    clip-path: polygon(0 90%, 0 91%, 100% 91%, 100% 90%);
-  }
-  60% {
-    clip-path: polygon(0 80%, 0 85%, 100% 85%, 100% 80%);
-  }
-  75% {
-    clip-path: polygon(0 32%, 0 33%, 100% 33%, 100% 32%);
-  }
-  85% {
-    clip-path: polygon(0 65%, 0 66%, 100% 66%, 100% 65%);
-  }
-  100% {
-    clip-path: polygon(0 35%, 0 50%, 100% 50%, 100% 35%);
-  }
-}
-
-@keyframes glitch {
-  0% {
-    filter: contrast(1.2) brightness(1);
-    transform: none;
-  }
-  7% {
-    transform: translate(-2px, -3px);
-    transform: skew(-0.5deg, -0.9deg);
-    background-position: 0px 0px;
-  }
-
-  8% {
-    filter: contrast(1) brightness(1) hue-rotate(0deg);
-    background-position: 0px 25px;
-    transform: none;
-  }
-  10% {
-    transform: translate(2px, 3px);
-  }
-  27% {
-    filter: blur(1px);
-    transform: none;
-  }
-  30% {
-    filter: contrast(2) brightness(2.5) invert(1) blur(1px);
-    transform: translate(-5px, -2px);
-    transform: skew(0.8deg, -0.1deg);
-  }
-  40% {
-    filter: contrast(2) brightness(2.5) invert(1) blur(1px);
-    transform: translate(5px, 2px);
-  }
-  52% {
-    transform: translate(-5px, -1px);
-  }
-  55% {
-    transform: skew(-1deg, 0.2deg);
-    filter: grayscale(0.2);
-  }
-  50% {
-    transform: none;
-  }
-  72% {
-    filter: brightness(1.4);
-    transform: none;
-  }
-  75% {
-    transform: translate(-2px, -6px);
-    transform: skew(0.4deg, 1deg);
-  }
-  80% {
-    transform: translate(2px, 6px);
-    transform: none;
-  }
-  100% {
-    transform: none;
-  }
-}
 @media (max-width: 480px) {
   body {
     background-color: $color__main;
@@ -326,6 +145,7 @@ body {
     box-shadow: none;
   }
   .game {
+    margin-top: 0px;
     box-shadow: none;
   }
 }
