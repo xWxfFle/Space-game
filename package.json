@@ -5,7 +5,10 @@
   "main": "gulpfile.mjs",
   "type": "module",
   "scripts": {
-    "dev": "gulp"
+    "dev": "gulp",
+    "build": "gulp build",
+    "deploy": "gh-pages -d dist",
+    "predeploy": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,9 +25,13 @@
     "del": "^7.0.0",
     "glob-parent": ">=5.1.2",
     "gulp": "^4.0.2",
+    "gulp-if": "^3.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-typescript": "*",
     "sass": "^1.54.3",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "gh-pages": "^4.0.0"
   }
 }

@@ -4,6 +4,7 @@ import dartSass from "sass";
 import ts from "gulp-typescript";
 import gulpSass from "gulp-sass";
 import { deleteAsync } from "del";
+import ifPlugin from "gulp-if"
 
 const reset = () => {
   return deleteAsync("dist");
@@ -67,4 +68,6 @@ function watcher() {
 
 const mainTasks = gulp.parallel(copy, html, styles, scripts);
 const dev = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
+const build = gulp.series(reset, mainTasks)
 gulp.task("default", dev);
+gulp.task("build", build);
