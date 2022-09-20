@@ -9,16 +9,30 @@
     <script type="module" src="js/script.js" defer></script>
   </head>
   <body>
-    <div class="game">
-      <canvas id="ui-layer"></canvas>
-      <canvas id="game-layer" width="420" height="580"></canvas>
-      <canvas id="background-layer"></canvas>
+    <div class="game__page">
+      <canvas id="ui__layer"></canvas>
+      <canvas id="game__layer" width="420" height="580"></canvas>
+      <canvas id="background__layer"></canvas>
     </div>
-    <div class="controller">
-      <button class="ArrowLeft"></button>
-      <button class="ArrowUp"></button>
-      <button class="ArrowDown"></button>
-      <button class="ArrowRight"></button>
+    <div class="controller__page">
+      <div class="arrow-controller__wrapper">
+        <button class="ArrowLeft"></button>
+        <button class="ArrowUp"></button>
+        <button class="ArrowDown"></button>
+        <button class="ArrowRight"></button>
+      </div>
+      <div class="start__wrapper">
+        <p>Start/Pause</p>
+        <button id="start"></button>
+        <p>Music volume</p>
+        <div>
+        <input id="volume" type="range" min="0" max="100" value="10">
+        </div>
+      </div>
     </div>
+    <audio id="track" autoplay loop preload="metadata">
+      <source src="files/mp3/space-music.mp3" type="audio/mpeg"/>
+      Your browser does not support the audio element.
+    </audio>
   </body>
 </html>
