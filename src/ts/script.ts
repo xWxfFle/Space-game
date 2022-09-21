@@ -19,6 +19,7 @@ let isGameActive = false;
 let isGamePaused = false;
 startbtn.addEventListener("click", () => {
   if (!isGameActive) {
+    track.play()
     startGame();
     return;
   }

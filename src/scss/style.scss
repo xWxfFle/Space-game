@@ -59,7 +59,7 @@ body {
       ". ArrowUp ."
       "ArrowLeft . ArrowRight"
       ". ArrowDown  .";
-      
+
     button {
       $angle: 8px;
       $angle-o: 4px;
@@ -185,10 +185,10 @@ body {
   body {
     background-color: $color__main;
   }
-  .controller {
+  .controller__page {
     box-shadow: none;
   }
-  .game {
+  .game__page {
     margin-top: 0px;
     box-shadow: none;
   }
