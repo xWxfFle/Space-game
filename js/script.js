@@ -1,8 +1,3 @@
-var track = document.getElementById("track");
-var volume = document.getElementById("volume");
-volume.addEventListener("change", function () {
-    track.volume = parseInt(volume.value) / 100;
-});
 import crashWith from "./modules/controllers/crashController.js";
 import ComponentFactory from "./modules/components/ComponentFactory.js";
 import Renderer from "./modules/components/ComponentRenderer.js";
@@ -14,7 +9,6 @@ var isGameActive = false;
 var isGamePaused = false;
 startbtn.addEventListener("click", function () {
     if (!isGameActive) {
-        track.play();
         startGame();
         return;
     }
