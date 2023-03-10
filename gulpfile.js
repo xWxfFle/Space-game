@@ -4,7 +4,6 @@ import dartSass from "sass";
 import ts from "gulp-typescript";
 import gulpSass from "gulp-sass";
 import { deleteAsync } from "del";
-import ifPlugin from "gulp-if"
 
 const reset = () => {
   return deleteAsync("dist");

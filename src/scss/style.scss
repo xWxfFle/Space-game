@@ -122,29 +122,6 @@ body {
       height: 25px;
       background-color: $color__second;
     }
-    input {
-      outline: none;
-      width: 100px;
-      -webkit-appearance: none;
-      appearance: none;
-      background: transparent;
-      cursor: pointer;
-    }
-
-    input::-webkit-slider-runnable-track {
-      background-color: $color__shadow;
-      border-radius: 1.5rem;
-      height: 20px;
-    }
-
-    input::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      background-color: $color__second;
-      border-radius: 10px;
-      height: 20px;
-      width: 30px;
-    }
   }
 }
 

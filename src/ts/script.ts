@@ -1,11 +1,3 @@
-const track = document.getElementById("track") as HTMLAudioElement;
-const volume = document.getElementById("volume") as HTMLInputElement;
-
-volume.addEventListener("change", () => {
-  track.volume = parseInt(volume.value) / 100;
-});
-
-
 import crashWith from "./modules/controllers/crashController.js";
 import ComponentFactory from "./modules/components/ComponentFactory.js";
 import Renderer from "./modules/components/ComponentRenderer.js";
@@ -19,7 +11,6 @@ let isGameActive = false;
 let isGamePaused = false;
 startbtn.addEventListener("click", () => {
   if (!isGameActive) {
-    track.play()
     startGame();
     return;
   }
